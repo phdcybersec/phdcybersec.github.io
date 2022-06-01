@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>About Me on Léo Lavaur</title>
+    <link>http://leolavaur.re/</link>
+    <description>Recent content in About Me on Léo Lavaur</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 30 Mar 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://leolavaur.re/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Over-engineered scientific paper writing</title>
+      <link>http://leolavaur.re/posts/latex_workflow/</link>
+      <pubDate>Wed, 30 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://leolavaur.re/posts/latex_workflow/</guid>
+      <description>Over-engineered scientific paper writing A few weeks ago, I received comments from reviewers after I submitted my first scientific paper. While reading through the instructions, I encountered the following:
+ While addressing comments of reviewers and revising your paper, please mark any text you update or add with a special color (e.g., blue), so that reviewers can easily notice your revisions.
+ At first, I thought about making a macro that adds color, and using that macro every time I make a change.</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>http://leolavaur.re/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://leolavaur.re/about/</guid>
+      <description>Hi, I&amp;rsquo;m Léo I&amp;rsquo;m a doctoral researcher at the chair Cyber CNI supported by IMT Atlantique. Before that, I received an engineering degree in information security from ENSIBS and worked at Orange Cyberdefense as a part-time employee for three years.
+Research Interests My research focuses on the collaboration in security systems, and how to share data without compromising security. I rely on topics like federated machine learning, intrusion detection, and collaborative knowledge sharing.</description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>http://leolavaur.re/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://leolavaur.re/contact/</guid>
+      <description> red { color: #dc3545; }  [at] llvr [dot] re --  Email: contact [at] llvr [dot] re   Social  LinkedIn Twitter  </description>
+    </item>
+    
+  </channel>
+</rss>

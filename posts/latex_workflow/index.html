@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang=""><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Over-engineered scientific paper writing</title>
+    <meta name="description" content="Professional website">
+    <meta name="author" content='Léo Lavaur'>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    
+    <link rel="stylesheet" href="/sass/researcher.min.css">
+
+    
+        <link rel="icon" type="image/ico" href="http://leolavaur.re/favicon.ico">
+    
+
+    
+        
+    
+</head>
+
+    <body><div class="container mt-5">
+    <nav class="navbar navbar-expand-sm flex-column flex-sm-row text-nowrap p-0">
+        <a class="navbar-brand mx-0 mr-sm-auto" href="http://leolavaur.re/" title="Léo Lavaur">
+          
+            <img src="http://leolavaur.re/logo_small.jpg" alt="logo">
+          
+          Léo Lavaur
+        </a>
+        <div class="navbar-nav flex-row flex-wrap justify-content-center">
+            
+                
+                
+                    <a class="nav-item nav-link" href="/about" title="About">
+                        About
+                    </a>
+                    
+                        <span class="nav-item navbar-text mx-1">/</span>
+                    
+                
+                    <a class="nav-item nav-link" href="/posts" title="Posts">
+                        Posts
+                    </a>
+                    
+                        <span class="nav-item navbar-text mx-1">/</span>
+                    
+                
+                    <a class="nav-item nav-link" href="/contact" title="Contact">
+                        Contact
+                    </a>
+                    
+                
+            
+        </div>
+    </nav>
+</div>
+<hr>
+<div id="content">
+<div class="container">
+    <h1 id="over-engineered-scientific-paper-writing">Over-engineered scientific paper writing</h1>
+<p>A few weeks ago, I received comments from reviewers after I submitted my first scientific paper.
+While reading through the instructions, I encountered the following:</p>
+<blockquote>
+<p><em>While addressing comments of reviewers and revising your paper, please mark any text you update
+or add with a special color (e.g., blue), so that reviewers can easily notice your revisions.</em></p>
+</blockquote>
+<p>At first, I thought about making a macro that adds color, and using that macro every time I make a
+change. But an issue appears then: how do I produce the final PDF? If I change the macro definition
+to remove color, I have <em>ghost</em> macros that do not do anything in my source code. That is not very
+portable. I could also use some sort of <em>regex</em> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> to delete all occurrences of my macro, and
+risk tampering with my document by doing so.</p>
+<p>Therefore, I started defining specifications for a writing workflow that would work. Here is what I
+came up with:</p>
+<ol>
+<li>Modifications must not require extra steps, <em>i.e.</em> no macro.</li>
+<li>Highlighting modifications must be easy, and automated.</li>
+<li>Every major update of the paper must be kept independently.</li>
+<li>Resources (<em>e.g.</em> bibliography, glossary, …) must be accessible to each paper.</li>
+<li>The workflow must be straightforward.</li>
+</ol>
+<h2 id="introduction-to-my-environment">Introduction to my environment</h2>
+<p>There are a lot of ways to write LaTeX. Online with a service like <a href="//overleaf.com">Overleaf</a>,
+offline with a TeX editor like <a href="https://www.xm1math.net/texmaker/">Texmaker</a>, or you can write <em>by
+hand</em> and compile yourself. I chose a hybrid approach with <a href="https://code.visualstudio.com/">VSCode</a>
+and <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTeX Workshop</a>.
+Coming from a developer background, I’m used to (and enjoy!) writing in text editors, and VSCode has
+become my <em>go-to</em> for the past years. LaTeX Workshop is an extension that more-or-less mimic the
+experience of a fully-featured IDE like Overleaf. This has two advantages: (1) files are offline, I
+do not rely on an internet connection to work; (2) I control everything, from the packages installed
+on my system, to the latex engine I use to compile my documents.</p>
+<p>To generate PDFs, many LaTeX engines and distributions exists. I settled on <a href="https://tectonic-typesetting.github.io/en-US/">Tectonic
+Typesetting</a>, which provides a bundle with a fork on
+XeTeX, and automatically downloads the packages and resources it needs to compile PDFs. I also keep
+a full <a href="https://www.tug.org/texlive/">TexLive</a> distribution, in case of offline work. This way, I
+can use both LaTeX Workshop and my terminal to generate documents; I know what works and what does
+not, and why. Compiling my work is then as simple as:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls 
+README.md  build  figures  paper.tex  resources
+$ tectonic -o build paper.tex
+Running TeX ...
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+Writing <span style="color:#e6db74">`</span>paper.pdf<span style="color:#e6db74">`</span> <span style="color:#f92672">(</span>612.01 KiB<span style="color:#f92672">)</span>
+</code></pre></div><p>Other alternatives exist (pdfTeX, XeTeX, LuaTeX, latexmk to automate the build process, and more). I
+won’t go over them, as a
+<a href="https://www.overleaf.com/learn/latex/Articles/The_TeX_family_tree%3A_LaTeX%2C_pdfTeX%2C_XeTeX%2C_LuaTeX_and_ConTeXt">lot</a>
+of
+<a href="https://tex.stackexchange.com/questions/223177/what-is-the-mindset-to-take-when-using-context-vs-latex">resources</a>
+exist to <a href="https://tex.stackexchange.com/questions/126206/why-choose-lualatex-over-xelatex">help</a> you
+<a href="https://tex.stackexchange.com/questions/372408/what-use-is-tectonic">chose</a>. <del>Google</del> DuckDuckGo
+is your friend.</p>
+<h2 id="versioning-with-git">Versioning with Git</h2>
+<p>Objective <strong>#3</strong> requires that I be able to keep every major updates of my work. And while I like to
+be able to work without internet access, having backups online is pretty useful.
+<a href="https://git-scm.com/">Git</a> solves both issues. Git is what we call a versioning program, or Version
+Control System, and is at the core of most modern developers&rsquo; workflow. It allows developers to keep
+a track of their changes in time, create different versions of their work, and above all collaborate
+with others. Therefore, I extensively use git in all my projects, managing a plethora of
+repositories.</p>
+<p>Git tracks changes with commits, which is a record of all modifications made since the last known
+state. You can use commits to rollback to a previous state, and see the differences between
+versions. Branches are pointers to a series of commits that forked from the <em>main</em> (or <em>master</em>)
+branch. They are less useful when you work alone, but absolutely essential when collaborating with
+others.</p>
+<p><img src="/images/git.drawio.png" alt="Git branches and tags"><!-- {"width":551} --></p>
+<p>One of Git’s features particularly shines to solve <strong>#3</strong>:
+<a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">tags</a>. A tag is an immutable branch that
+points to a specific commit. It can be seen as a saved version of your work. When working on
+software, it allows you to tag releases, allowing users to fetch a specific version. But for paper
+writing, it enables quick comparison between versions of your work. Git supports two types of tags
+that you can use: <em>lightweight</em> tags and <em>annotated</em> tags.</p>
+<p>The <em>lightweight</em> nothing more than a branch. It has a name, and once it has been created,
+modification will not be committed to it. An <em>annotated</em> tag, on the other hand, is stored as a full
+Git object, which also mean that you can add a description to it. It can be useful to remember what
+release contained what. Here is an example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git commit -m <span style="color:#e6db74">&#34;update: basic readme; add: paper.tex&#34;</span>
+<span style="color:#f92672">[</span>main b8d7331<span style="color:#f92672">]</span> update: basic readme; add: paper.tex
+ <span style="color:#ae81ff">2</span> files changed, <span style="color:#ae81ff">3</span> insertions<span style="color:#f92672">(</span>+<span style="color:#f92672">)</span>
+ create mode <span style="color:#ae81ff">100644</span> paper.tex
+
+$ git tag v0.1
+
+$ git tag
+v0.1
+
+<span style="color:#75715e"># do some commits</span>
+$ git tag -a <span style="color:#e6db74">&#34;v1.2&#34;</span> -m <span style="color:#e6db74">&#34;version with related works&#34;</span>
+
+$ git tag
+v0.1
+v0.2
+
+<span style="color:#75715e"># upload your tags</span>
+git push --tags
+</code></pre></div><p>You will not directly see the difference between <em>lightweight</em> and <em>annotated</em> tags, but it will
+appear on your web interface, and can also be seen with <code>git show &lt;tag_name&gt;</code>.  Since tags work
+pretty much like immutable branches, you can use the <code>checkout</code>command to go back to a tag’s state.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls 
+README.md  build  figures  paper.tex  resources
+
+$ git checkout v1.0 <span style="color:#75715e"># let&#39;s say you added readme in v1.2</span>
+
+$ ls
+build  figures  paper.tex  resources 
+</code></pre></div><h2 id="synchronizing-resources">Synchronizing resources</h2>
+<p>Objective <strong>#4</strong> states: <em>Resources (<em>e.g.</em> bibliography, glossary, …) must be accessible to each
+paper.</em></p>
+<p>When working on your first paper, putting everything inside your project (<em>e.g.</em> your Git
+repository) is easy, and works pretty well. However, it does not scale well: how to you work on two
+papers at the same time? How can you keep your bibliography consistent between your papers? What if
+you wish to start working on your thesis manuscript, reusing previous works? You need <em>something</em>,
+available in all your repositories, that is ensured to be the same for all.</p>
+<p>Git <em><a href="https://git-scm.com/docs/git-submodule">submodules</a></em> provide such a functionality. Their
+goal is to import a Git repository <em>inside</em> another, and potentially inside several others. Having
+your shared resources synced in every project removes a tremendous amount of tinkering, and dealing
+with inconsistencies. So let&rsquo;s have a look:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls 
+README.md  build  figures  paper.tex
+
+$ git submodule add git@github.com:phdcybersec/latex-article-bootstrap-resources.git resources
+Cloning into <span style="color:#e6db74">&#39;&lt;redacted&gt;/latex-article-bootstrap/resources&#39;</span>...
+remote: Enumerating objects: 6, <span style="color:#66d9ef">done</span>.
+remote: Counting objects: 100% <span style="color:#f92672">(</span>6/6<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+remote: Compressing objects: 100% <span style="color:#f92672">(</span>5/5<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+remote: Total <span style="color:#ae81ff">6</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">3</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, pack-reused <span style="color:#ae81ff">0</span>
+Receiving objects: 100% <span style="color:#f92672">(</span>6/6<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+
+$ ls 
+README.md  build  figures  paper.tex  resources
+</code></pre></div><p>As you can see, a new directory <em>resources</em> is now available, and contains the cloned repository.
+The submodule acts like an independent Git repository, which means you can pull, commit, and push
+within this repository like you would have normally done. However, unlike a simple repository, the
+submodule and its path are synced on the remote branch, which means that you can see it on any other
+up-to-date local copy. In the context of writing TeX, it is particularly useful to share
+bibliography, glossary, or a custom <em>.sty</em> packages.</p>
+<p>The workflow slightly differs when working with submodules:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># clone a repository and its submodules</span>
+git clone --recursive &lt;address&gt;
+
+<span style="color:#75715e"># pull changes for all submodules in a repository</span>
+git submodules foreach git pull
+
+<span style="color:#75715e"># commit and push changes in a submodule</span>
+cd path/to/submodule
+git commit -am <span style="color:#e6db74">&#34;commit message&#34;</span> <span style="color:#f92672">&amp;&amp;</span> git push
+</code></pre></div><h2 id="highlighting-modifications">Highlighting modifications</h2>
+<p>We finally get to why I’ve started to work on this in the first place: being able to show to the
+reviewers what changed since the last time, solving <strong>#1</strong> and <strong>#2</strong>. Moreover, now that we are
+able to keep track of versions, we can compare them! After a bit of searching around, I came across
+<a href="https://www.ctan.org/pkg/latexdiff?lang=en">latexdiff</a>. Pretty much as the <code>diff</code> Unix command
+that shows the differences between two files, <code>latexdiff</code> produces a new TeX file for you to
+compile, that highlights the changes you’ve made.</p>
+<p>Here is an example where I downloaded my work at tag &ldquo;v1.0&rdquo; and placed it in <code>/tmp</code>, in order to
+compare it with my current version. Since <code>latexdiff</code> generates a TeX file, you can chain the
+command with a TeX compiler, here Tectonic.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone -b <span style="color:#e6db74">&#34;v1.0&#34;</span> --single-branch git@github.com:phdcybersec/latex-article-bootstrap.git /tmp/paper-v1.0
+
+$ latexdiff /tmp/paper-v1.0/paper.tex ./paper.tex | tectonic -
+</code></pre></div><p><img src="images/paper-latexdiff.png" alt="Example of diff PDF"><!-- {"width":408} --></p>
+<p>However, TeX project are rarely that simple,
+and are often split as they grow. However, <code>latexdiff</code> is only able to take atomic files to
+compare—excluding the images, bibliographies, and such external resources. The <code>--flatten</code> option
+can be used to <em>flatten</em> the input documents, by looking at <code>\input</code> or <code>\include</code> LaTeX commands,
+and pasting the according files&rsquo; content in their place. This approach has some caveats, and might
+break when encountering unusual code, like includes inside macros, or complex tables. You can check
+that your LaTeX document support <em>flattening</em> by using a similar tool called <code>latexpand</code> (both
+<code>latexdiff</code> and this one are available in CTAN repositories).</p>
+<p>Automating the generation a <em>diff</em> file with a tag could be easily done: download the version of
+your Git repository at a specified tag, <em>flatten</em> both your old and new versions, generate your
+<em>diff</em> file, and build the according PDF. Fortunately, there already exists a tool that does just
+that: <a href="https://gitlab.com/git-latexdiff/git-latexdiff">￼<code>git-latexdiff</code>￼</a>. This is the keystone
+of this whole workflow.</p>
+<p>Available as both an executable and a git subcommand, <code>git-latexdiff</code> allows you to automate the
+aforementioned operations, in one command. Here is an example with our repository:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># opens paper.pdf in default viewer</span>
+$ git latexdiff --main paper.tex --tectonic <span style="color:#e6db74">&#34;v1.0&#34;</span> --
+</code></pre></div><p>Now I can write, with tagged version to which I can come back to, with an automated generation of
+the changes between versions. That covers my objectives <strong>#1</strong> through <strong>#3</strong>.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Merging all information above leads to an efficient workflow that checks <strong>#5</strong>. It is easy,
+automated, and provides reproducibility (one tag, one PDF). I can highlight differences between
+versions, thus providing reviewers with a high-quality <em>diff</em> file. More importantly, it is highly
+portable, adaptable, and extensible. The techs used here are standards, there are no underground
+self-made pieces of codes that could break; and Git can integrate with pretty much everything, from
+your shell to your favorite TeX editor.</p>
+<p>This <a href="https://github.com/phdcybersec/latex-article-bootstrap">repository</a> has been used to write
+this post, and the
+<a href="https://github.com/phdcybersec/latex-article-bootstrap/releases/tag/v2.0"><code>v2.0</code></a> tag will always
+point to the version mentioned here. Don&rsquo;t hesitate to clone or fork this repository to adapt it to
+your needs. If you think something is missing, or you found mistakes, please reach out, I&rsquo;ll be
+happy to update the post accordingly.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>A Regular Expression (or RegEx) is a pattern that matches text. Regex engines can then execute
+a regex to find subtext, or verify that a string matches that pattern. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+</div>
+
+        </div><div id="footer" class="mb-5">
+    
+        <hr>
+        <div class="container text-center">
+            <a href="http://leolavaur.re/" title="Léo Lavaur, 2021, all rights reserved."><small>Léo Lavaur, 2021, all rights reserved.</small></a>
+        </div>
+    
+</div>
+</body>
+</html>
